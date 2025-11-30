@@ -40,49 +40,76 @@
         #intro-section ul li {
             margin-bottom: 5px;
         }
-        /* Table Styles */
-        table {
+        
+        /* Table Styles (Applied to every generated table) */
+        .location-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 30px; 
+            margin-bottom: 30px;
             box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             background-color: white; 
             font-size: 0.9em;
+            border-radius: 8px;
+            overflow: hidden; 
         }
-        th, td {
+        .location-table caption {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #0056b3;
+            padding: 10px;
+            background-color: #e0f7fa; 
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            caption-side: top;
+        }
+        .location-table th, .location-table td {
             border: 1px solid #ddd;
             padding: 8px 10px;
             text-align: left;
-            color: #333; 
+            /* Default text color is handled by .light-text-theme or .dark-text-theme on tbody */
+            background-color: transparent !important; /* Ensure table cells are transparent */
         }
-        th {
-            background-color: #007bff;
+        .location-table th {
+            background-color: #007bff !important;
             color: white;
-            font-weight: bold;
-            position: sticky;
-            top: 0;
             z-index: 10;
         }
-        tr:hover {
-            background-color: rgba(233, 233, 255, 0.9) !important; /* Lighter hover color for readability */
+        
+        /* --- HOVER THEMES FOR CONTRAST --- */
+        /* Light Hover (for Dark Text Themes) - Default setting */
+        .light-hover tr:hover td {
+            /* Increased visibility of hover effect for light images */
+            background-color: rgba(100, 100, 255, 0.1) !important; /* Semi-opaque light blue */
         }
+        /* Dark Hover (for Light Text Themes) */
+        .dark-hover tr:hover td {
+            /* Slightly darker hover for dark images */
+            background-color: rgba(0, 0, 0, 0.6) !important; /* Semi-opaque black */
+        }
+
         /* Data Colors and Styles */
         .date-location {
             font-weight: bold;
-            background-color: transparent !important;
+            /* Changed to a neutral, slightly darker background for better contrast on ALL backgrounds */
+            background-color: rgba(0, 0, 0, 0.1) !important; 
         }
         .accommodation {
             font-style: italic;
         }
         .dietary-col {
             font-size: 0.85em;
-            color: #555;
+            /* Color is inherited or set by theme, but keep a slight contrast */
         }
-        .score-5 { color: #006400; font-weight: bold; }
-        .score-3 { color: #8B8000; }
-        .score-2 { color: #8B0000; }
+        /* Score colors (Keep fixed for readability) */
+        .score-5 { color: #28a745; font-weight: bold; }
+        .score-3 { color: #ffc107; }
+        .score-2 { color: #dc3545; }
+        /* Contact info styling */
         .contact-info a {
-            color: #0056b3;
+            /* Color is set by theme to ensure visibility */
             text-decoration: none;
             font-size: 0.8em; 
             display: block;
@@ -90,61 +117,92 @@
         .contact-info a:hover {
             text-decoration: underline;
         }
+        
+        /* --- TEXT THEMES FOR CONTRAST --- */
+        
+        /* Default text color for light image backgrounds */
+        .dark-text-theme td {
+            /* Default dark text */
+            color: #222; 
+        }
+        /* Text color for dark image backgrounds */
+        .light-text-theme td {
+            /* Made color slightly brighter for better contrast */
+            color: #ffffff; /* White */ 
+        }
+        .light-text-theme .date-location {
+            /* Override to keep date/location standing out, but with a darker background for white text */
+            background-color: rgba(0, 0, 0, 0.6) !important; /* Darker black overlay */
+            color: white; 
+        }
+        .light-text-theme .dietary-col {
+            /* Use a brighter gray */
+            color: #e0e0e0;
+        }
+        .light-text-theme .contact-info a {
+            /* Use a brighter light blue for links */
+            color: #b3e5fc; 
+        }
 
-        /* IMAGE BACKGROUND THEMES - Using live Pexels URLs */
-        .location-theme {
+        /* --- LOCATION THEMES (Background Images on the whole table body) --- */
+        
+        /* This class manages the background properties */
+        .location-themed-body {
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-color: rgba(255, 255, 255, 0.75); 
-            transition: background-color 0.3s;
+            /* Ensure no residual background color showing through */
+            background-color: transparent; 
         }
 
-        /* 🖼️ PUBLIC IMAGE URLs */
-
-        /* Christchurch: Avon River / Tram */
-        .location-theme-christchurch {
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.7)), url('https://images.pexels.com/photos/1577742/pexels-photo-1577742.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'); 
+        /* Christchurch: Dark image -> Light Text (Requires Dark Hover) */
+        .theme-christchurch {
+            /* INCREASED BLACK OVERLAY: 0.6 */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                              url('https://media.istockphoto.com/id/479835684/photo/christchurch-cathederal.jpg?s=612x612&w=0&k=20&c=xsWiuPILuV3eFQ9eGIDSYiwTZuedYewhwyB24ckZs0s=');
         }
-        /* Lake Tekapo: Church/Lake */
-        .location-theme-tekapo {
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.7)), url('https://images.pexels.com/photos/673892/pexels-photo-673892.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'); 
+        /* Lake Tekapo: Dark image -> Light Text (Requires Dark Hover) */
+        .theme-laketekapo {
+            /* Increased black overlay opacity for better light text contrast (Unchanged from prior step) */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), 
+                              url('https://media.istockphoto.com/id/465993201/photo/majestic-mountain-lake-with-lupins-blooming.jpg?s=612x612&w=0&k=20&c=HgsWZs27ipjfLmqYMttCuXdrz4p8UuoM2OrNEWeBpiM=');
         }
-        /* Mount Cook: Aoraki Peak */
-        .location-theme-mountcook {
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.7)), url('https://images.pexels.com/photos/2790396/pexels-photo-2790396.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'); 
+        /* Mount Cook: Bright/White image -> Dark Text (Requires Light Hover) */
+        .theme-mountcook {
+            /* INCREASED WHITE OVERLAY: 0.95 */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), 
+                              url('https://images.pexels.com/photos/2790396/pexels-photo-2790396.jpeg?auto=compress&cs=tinysrgb&h=400&w=1200');
         }
-        /* Queenstown: Lake Wakatipu */
-        .location-theme-queenstown {
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.7)), url('https://images.pexels.com/photos/1484087/pexels-photo-1484087.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'); 
+        /* Queenstown: Medium/Dark image -> Light Text (Requires Dark Hover) */
+        .theme-queenstown {
+            /* Increased black overlay opacity for better light text contrast (Unchanged from prior step) */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), 
+                              url('https://images.pexels.com/photos/2226900/pexels-photo-2226900.jpeg?cs=srgb&dl=pexels-kyleroxas-2226900.jpg&fm=jpg');
         }
-        /* Wanaka: Famous Tree/Lake */
-        .location-theme-wanaka {
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.7)), url('https://images.pexels.com/photos/11183354/pexels-photo-11183354.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'); 
+        /* Wanaka: Bright image -> Dark Text (Requires Light Hover) */
+        .theme-wanaka {
+            /* INCREASED WHITE OVERLAY: 0.95 */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.95)), 
+                              url('https://images.pexels.com/photos/11183354/pexels-photo-11183354.jpeg?auto=compress&cs=tinysrgb&h=400&w=1200');
         }
-        /* Te Anau: Fiordland (Generic Green Landscape) */
-        .location-theme-teanau {
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.7)), url('https://images.pexels.com/photos/33044/green-nature-leaf-plant.jpg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'); 
+        /* Te Anau: Medium/Bright Green image -> Dark Text (Requires Light Hover) */
+        .theme-teanau {
+            /* Increased white overlay opacity for better dark text contrast (Unchanged from prior step) */
+            background-image: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)), 
+                              url('https://mustdonewzealand.co.nz/wp-content/uploads/2025/02/Free-things-to-do-in-te-anau-25.webp');
         }
-        /* Rotorua: Steam/Geothermal */
-        .location-theme-rotorua {
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.7)), url('https://images.pexels.com/photos/2366838/pexels-photo-2366838.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'); 
+        /* Rotorua: Medium/Dark image -> Light Text (Requires Dark Hover) */
+        .theme-rotorua {
+            /* Increased black overlay opacity for better light text contrast (Unchanged from prior step) */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), 
+                              url('https://cdn.pixabay.com/photo/2016/11/17/18/16/new-zealand-1832283_1280.jpg');
         }
-        /* Auckland: Sky Tower/Cityscape */
-        .location-theme-auckland {
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.7)), url('https://images.pexels.com/photos/1410222/pexels-photo-1410222.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940'); 
+        /* Auckland: Medium/Dark image -> Light Text (Requires Dark Hover) */
+        .theme-auckland {
+            /* Increased black overlay opacity for better light text contrast (Unchanged from prior step) */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), 
+                              url('https://images.unsplash.com/photo-1515248027005-c33283ec3fba?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGF1Y2tsYW5kfGVufDB8fDB8fHww');
         }
-
-        /* Hover effect: make background slightly more transparent */
-        .location-theme:hover {
-            background-color: rgba(255, 255, 255, 0.95) !important;
-        }
-
-        /* Visual separator for location blocks */
-        .location-separator {
-            border-top: 3px solid #0056b3 !important;
-        }
-        
     </style>
 </head>
 <body>
@@ -156,6 +214,7 @@
         <p>This interactive table outlines the proposed dining options for each night of the New Zealand itinerary. It includes details essential for pre-trip planning and booking for a large group (14 people).</p>
 
         <h3>Table Layout Explanation</h3>
+        <p>The itinerary is now split into separate tables, one for each location. This helps focus on the dining options available at each stop on the trip.</p>
         <ul>
             <li><strong>Accommodation / Activity:</strong> Notes the specific hotel or pre-booked dinner experience (e.g., Hāngī Dinner, Walter Peak).</li>
             <li><strong>Restaurant Option / Cuisine:</strong> Details the specific restaurant and its culinary focus.</li>
@@ -175,26 +234,8 @@
         </ul>
     </section>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Location</th>
-                <th>Accommodation / Activity</th>
-                <th>Restaurant Option</th>
-                <th>Cuisine</th>
-                <th title="Highly likely dish">Sample Vegetarian Dish</th>
-                <th title="Highly likely dish">Sample Pescatarian Dish</th>
-                <th title="Highly likely dish">Sample Meat Dish</th>
-                <th>Suitability Score (1-5)</th>
-                <th>Distance from Hotel</th>
-                <th>Contact Info 📞</th>
-                <th>Selected ✅</th>
-            </tr>
-        </thead>
-        <tbody id="itineraryTableBody">
-            </tbody>
-    </table>
+    <div id="itineraryContainer">
+        </div>
 
     <script>
         // Data Array - Website is added as the 12th element (index 10)
@@ -215,14 +256,14 @@
             ["Dec 14 (Sun)", "Lake Tekapo", "Grand Suites Lake Tekapo", "Dark Sky Diner", "South American/International", "Black Bean Burger or Vegetable Empanadas", "Grilled Prawn Skewers or Fish Tacos", "Lomo Saltado (Beef Stir Fry) or Asado (BBQ)", 4, "~10 min walk", "+64 3 680 6960 / info@darkskyproject.co.nz / https://www.darkskyproject.co.nz/eat/dark-sky-diner"],
             ["Dec 14 (Sun)", "Lake Tekapo", "Grand Suites Lake Tekapo", "Ramen Tekapo", "Japanese/Asian", "Vegetable Ramen (Miso or Shoyu base)", "Seafood Ramen or Gyoza (Prawn)", "Pork Chashu Ramen or Beef Donburi", 3, "~9 min walk", "+64 20 4156 4900 / info@tekapoadventures.com / https://www.tekapoadventures.com/tekapo-adventures-blog/lake-tekapo-restaurants/ramen-tekapo-menu"],
             // Mount Cook (Hermitage Hotel)
-            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Alpine Restaurant (Buffet)", "International Buffet", "**Pasta station, Salad bar, Vegetable curries**", "**Fresh Fish station, Sushi (if offered)**", "**Roast Carvery (e.g., Beef, Lamb), Poultry dishes**", 5, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/alpine-restaurant"],
-            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Panorama Room", "Fine Dining/3-Course", "Vegetarian Course (Chef's Choice)", "Salmon or other delicate Fish dish", "High-end Venison or Beef dish", 3, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/panorama-room"],
-            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Sir Edmund Hillary Café & Bar", "Casual/Bar Snacks", "Pizza or Soup of the Day", "Smoked Salmon Bagel or Seafood Basket", "Gourmet Burger or Sausage Roll", 2, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/cafe"],
-            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Alpine Restaurant (Buffet)", "International Buffet", "**Pasta station, Salad bar, Vegetable curries**", "**Fresh Fish station, Sushi (if offered)**", "**Roast Carvery (e.g., Beef, Lamb), Poultry dishes**", 5, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/alpine-restaurant"],
-            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Panorama Room", "Fine Dining/3-Course", "Vegetarian Course (Chef's Choice)", "Salmon or other delicate Fish dish", "High-end Venison or Beef dish", 3, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/panorama-room"],
-            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Sir Edmund Hillary Café & Bar", "Casual/Bar Snacks", "Pizza or Soup of the Day", "Smoked Salmon Bagel or Seafood Basket", "Gourmet Burger or Sausage Roll", 2, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/cafe"],
+            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Alpine Restaurant (Buffet)", "International Buffet", "**Pasta station, Salad bar, Vegetable curries**", "**Fresh Fish station, Sushi (if offered)**", "**Roast Carvery (e.g., Beef, Lamb), Poultry dishes**", 5, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/dine/"],
+            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Panorama Room", "Fine Dining/3-Course", "Vegetarian Course (Chef's Choice)", "Salmon or other delicate Fish dish", "High-end Venison or Beef dish", 3, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/dine/"],
+            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Sir Edmund Hillary Café & Bar", "Casual/Bar Snacks", "Pizza or Soup of the Day", "Smoked Salmon Bagel or Seafood Basket", "Gourmet Burger or Sausage Roll", 2, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/dine/"],
+            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Alpine Restaurant (Buffet)", "International Buffet", "**Pasta station, Salad bar, Vegetable curries**", "**Fresh Fish station, Sushi (if offered)**", "**Roast Carvery (e.g., Beef, Lamb), Poultry dishes**", 5, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/dine/"],
+            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Panorama Room", "Fine Dining/3-Course", "Vegetarian Course (Chef's Choice)", "Salmon or other delicate Fish dish", "High-end Venison or Beef dish", 3, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/dine/"],
+            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Sir Edmund Hillary Café & Bar", "Casual/Bar Snacks", "Pizza or Soup of the Day", "Smoked Salmon Bagel or Seafood Basket", "Gourmet Burger or Sausage Roll", 2, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/dine/"],
             // Queenstown
-            ["Dec 17 (Wed)", "Queenstown", "Walter Peak Gourmet Dinner", "Walter Peak Gourmet Dinner", "NZ BBQ Buffet", "**Roast Vegetables & Salads (Buffet selection)**", "**Salmon or other BBQ Fish (Buffet selection)**", "**BBQ Lamb, Beef, and Chicken Carvery**", 5, "Cruise Departs Steamer Wharf (~10 min walk)", "+64 3 442 8888 / info@realnz.com / https://www.realnz.com/walter-peak-dinner"],
+            ["Dec 17 (Wed)", "Queenstown", "Walter Peak Gourmet Dinner", "Walter Peak Gourmet Dinner", "NZ BBQ Buffet", "**Roast Vegetables & Salads (Buffet selection)**", "**Salmon or other BBQ Fish (Buffet selection)**", "**BBQ Lamb, Beef, and Chicken Carvery**", 5, "Cruise Departs Steamer Wharf (~10 min walk)", "+64 3 442 8888 / info@realnz.com / https://www.realnz.com/en/experiences/tss-earnslaw-walter-peak-experiences/walter-peak-gourmet-bbq-dining/"],
             ["Dec 18 (Thu)", "Queenstown", "The Central Private Hotel (Guide Rest Day)", "Yonder", "International/Cafe", "Stacked Tofu Burger or Pasta", "Fish Tacos or Grilled Fish (limited selection)", "Beef Burger or Chicken Schnitzel", 5, "~5-10 min walk", "+64 3 441 2222 / hello@yonder.co.nz / https://www.yonderqt.co.nz"],
             ["Dec 18 (Thu)", "Queenstown", "The Central Private Hotel (Guide Rest Day)", "Cassia", "Modern Indian", "Tandoori Paneer or Vegetable Kofta Curry", "Tandoori Prawns or Fish Curry", "Lamb Rogan Josh or Chicken Tikka Masala", 5, "~10-15 min walk", "+64 3 442 5555 / book@cassia.co.nz / https://skycityauckland.co.nz/restaurants/cassia"],
             ["Dec 18 (Thu)", "Queenstown", "The Central Private Hotel (Guide Rest Day)", "Blue Kanu", "Polynesian/Asian Fusion", "Wok-tossed Vegetables & Rice or Tofu Dish", "Market Fish in Coconut Cream or Poke Bowl", "Pork Belly Bao Buns or Beef Rendang", 4, "~10-15 min walk", "+64 3 442 6666 / reservations@bluekanu.co.nz / http://www.bluekanu.co.nz"],
@@ -233,23 +274,18 @@
             ["Dec 20 (Sat)", "Te Anau", "Fiordland Lakeview Motel & Apartments", "Radhas Indian Restaurant", "Indian", "Paneer Tikka Masala or Palak Paneer", "Fish Curry or Prawn Vindaloo", "Lamb Curry or Butter Chicken", 5, "~5-10 min walk", "+64 3 249 7000 / radhas@indian.co.nz / https://southlandnz.com/listing/radhas-indian-restaurant/2082"],
             ["Dec 20 (Sat)", "Te Anau", "Fiordland Lakeview Motel & Apartments", "The Fat Duck", "Gastropub/NZ", "Vegetable Wellington or Haloumi Salad", "Blue Cod Fish & Chips or Mussel Fritters", "Fiordland Venison Pie or Pork Ribs", 5, "~5-10 min walk", "+64 3 249 8000 / bookings@fatduck.co.nz / https://www.thefatduck.co.nz"],
             ["Dec 20 (Sat)", "Te Anau", "Fiordland Lakeview Motel & Apartments", "Redcliff Café", "Fiordland/NZ Fine Dining", "Seasonal Vegetable Main Course (Ask staff)", "Fiordland Lobster or Pan-Fried Fish", "Local Wild Venison or Lamb Shank", 3, "~10-15 min walk", "+64 3 249 9000 / redcliff@cafe.co.nz / http://www.theredcliff.co.nz"],
-            ["Dec 21 (Sun)", "Te Anau", "Fiordland Lakeview Motel & Apartments (Return from Milford)", "Radhas Indian Restaurant", "Indian", "Paneer Tikka Masala or Palak Paneer", "Fish Curry or Prawn Vindaloo", "Lamb Curry or Butter Chicken", 5, "~5-10 min walk", "+64 3 249 7000 / radhas@indian.co.nz / https://southlandnz.com/listing/radhas-indian-restaurant/2082"],
-            ["Dec 21 (Sun)", "Te Anau", "Fiordland Lakeview Motel & Apartments (Return from Milford)", "The Fat Duck", "Gastropub/NZ", "Vegetable Wellington or Haloumi Salad", "Blue Cod Fish & Chips or Mussel Fritters", "Fiordland Venison Pie or Pork Ribs", 5, "~5-10 min walk", "+64 3 249 8000 / bookings@fatduck.co.nz / https://www.thefatduck.co.nz"],
-            ["Dec 21 (Sun)", "Te Anau", "Fiordland Lakeview Motel & Apartments (Return from Milford)", "Redcliff Café", "Fiordland/NZ Fine Dining", "Seasonal Vegetable Main Course (Ask staff)", "Fiordland Lobster or Pan-Fried Fish", "Local Wild Venison or Lamb Shank", 3, "~10-15 min walk", "+64 3 249 9000 / redcliff@cafe.co.nz / http://www.theredcliff.co.nz"],
             // Rotorua
             ["Dec 22 (Mon)", "Rotorua", "Pullman Hotel Rotorua", "Atlas Restaurant", "International/Hotel", "Ricotta & Spinach Ravioli or Vegetable Stir-fry", "Market Fish or Prawn Linguine", "Wagyu Rump Steak or Chicken Supreme", 4, "On-site", "+64 7 343 0000 / atlas@pullman.co.nz / https://www.pullmanrotorua.com"],
             ["Dec 22 (Mon)", "Rotorua", "Pullman Hotel Rotorua", "Atticus Finch", "Innovative/International", "Smoked Tofu Salad or Kumara Mash dish", "Seared Tuna or Mussels", "Lamb Rack or Beef Cheek", 4, "~5-10 min walk", "+64 7 347 1111 / atticus@finch.co.nz / https://www.atticusfinch.co.nz"],
             ["Dec 22 (Mon)", "Rotorua", "Pullman Hotel Rotorua", "Sabroso Restaurant", "Latin American/Caribbean", "Vegetarian Burrito or Black Bean & Rice", "Ceviche or Grilled Fish with Salsa", "Cuban Pork or Chicken Mojo", 3, "~10-15 min walk", "+64 7 348 2222 / info@sabroso.co.nz / https://www.sabrosorotorua.co.nz"],
-            ["Dec 23 (Tue)", "Rotorua", "Te Pō Hāngī Dinner", "Te Pō Hāngī Dinner", "Māori Cultural Buffet", "**Roasted Kumara (Sweet Potato) & Vegetables**", "**Steamed Fish or Smoked Salmon (Buffet selection)**", "**Hāngī-cooked Lamb, Chicken & Pork**", 5, "Located at Te Puia (Requires transport)", "+64 7 348 9053 / bookings@tepuia.com / https://www.tepuia.com/dining"],
+            ["Dec 23 (Tue)", "Rotorua", "Te Pō Hāngī Dinner", "Te Pō Hāngī Dinner", "Māori Cultural Buffet", "**Roasted Kumara (Sweet Potato) & Vegetables**", "**Steamed Fish or Smoked Salmon (Buffet selection)**", "**Hāngī-cooked Lamb, Chicken & Pork**", 5, "Located at Te Puia (Requires transport)", "+64 7 348 9053 / bookings@tepuia.com / https://www.tepuia.com/food"],
             ["Dec 23 (Tue)", "Rotorua", "Pullman Hotel Rotorua", "BailwalG Vegetarian Restaurant", "Dedicated Vegetarian/Vegan Indian", "**Any Dish (e.g., Baingan Bharta, Malai Kofta)**", "**No Pescatarian (Veg Only)**", "**No Meat (Veg Only)**", 3, "~10-15 min walk", "+64 7 349 3333 / bailwalg@veg.co.nz / https://bailwalg.booknorder.co.nz"],
-            ["Dec 23 (Tue)", "Rotorua", "Pullman Hotel Rotorua", "Atticus Finch", "Innovative/International", "Smoked Tofu Salad or Kumara Mash dish", "Seared Tuna or Mussels", "Lamb Rack or Beef Cheek", 4, "~5-10 min walk", "+64 7 347 1111 / atticus@finch.co.nz / https://www.atticusfinch.co.nz"],
             // Auckland (SkyCity)
             ["Dec 24 (Wed)", "Auckland", "Horizon by SkyCity", "Orbit 360° Dining", "Fine Dining/Buffet", "**Vegetable Grill/Roast (Buffet)**", "**Oysters, Prawns, Salmon (Buffet)**", "**Roast Beef Carvery, Chicken dishes (Buffet)**", 5, "On-site (Sky Tower)", "+64 9 363 6000 / orbitreservations@skycity.co.nz / https://skycityauckland.co.nz/restaurants/orbit"],
             ["Dec 24 (Wed)", "Auckland", "Horizon by SkyCity", "Cassia", "Modern Indian", "Tandoori Paneer or Vegetable Kofta Curry", "Tandoori Prawns or Fish Curry", "Lamb Rogan Josh or Chicken Tikka Masala", 5, "On-site (SkyCity Complex)", "+64 9 379 9702 / cassia@skycity.co.nz / https://skycityauckland.co.nz/restaurants/cassia"],
             ["Dec 24 (Wed)", "Auckland", "Horizon by SkyCity", "Dr Rudi's Rooftop Brewing Co.", "Casual Pub/Pizza", "Mushroom or Vegetarian Pizza", "Fish and Chips (limited menu)", "Meat Lover's Pizza or Burger", 3, "~15-20 min walk (Viaduct Harbour)", "+64 9 366 3333 / info@drrudis.co.nz / https://drrudis.co.nz"],
             ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "Cassia", "Modern Indian", "Tandoori Paneer or Vegetable Kofta Curry", "Tandoori Prawns or Fish Curry", "Lamb Rogan Josh or Chicken Tikka Masala", 5, "On-site (SkyCity Complex)", "+64 9 379 9702 / cassia@skycity.co.nz / https://skycityauckland.co.nz/restaurants/cassia"],
-            ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "The Poni Room", "Asian Fusion/Seafood", "Tofu Steak or Vegetable Dumplings", "Oysters, Sashimi, or Fish Curry", "BBQ Pork Ribs or Beef Skewers", 4, "~15-20 min walk (Viaduct Harbour)", "+64 9 368 7777 / theponiroom@skycity.co.nz / https://www.theponiroom.co.nz"],
-            ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "The Grill", "Steak & Seafood", "Seasonal Vegetable Platter (Limited)", "Lobster, Crayfish, or Market Fish", "Eye Fillet, Rib Eye, or Lamb Cutlets", 2, "On-site (SkyCity Complex)", "+64 9 363 6000 / thegrill@skycity.co.nz / https://www.thegrill.co.nz"]
+            ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "The Grill", "Steak & Seafood", "Seasonal Vegetable Platter (Limited)", "Lobster, Crayfish, or Market Fish", "Eye Fillet, Rib Eye, or Lamb Cutlets", 2, "On-site (SkyCity Complex)", "+64 9 363 6000 / thegrill@skycity.co.nz / https://skycityauckland.co.nz/restaurants/the-grill/"]
         ];
 
         // Utility function to create a clean, unique ID from the restaurant name
@@ -257,46 +293,100 @@
             return name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
         }
 
-        // Map location names to the new CSS theme classes
-        const locationThemes = {
-            'Christchurch': 'location-theme location-theme-christchurch',
-            'Lake Tekapo': 'location-theme location-theme-tekapo',
-            'Mount Cook': 'location-theme location-theme-mountcook',
-            'Queenstown': 'location-theme location-theme-queenstown',
-            'Wanaka': 'location-theme location-theme-wanaka',
-            'Te Anau': 'location-theme location-theme-teanau',
-            'Rotorua': 'location-theme location-theme-rotorua',
-            'Auckland': 'location-theme location-theme-auckland'
+        // Map location names to theme classes for the table body
+        const locationThemeClasses = {
+            'Christchurch': 'theme-christchurch',
+            'Lake Tekapo': 'theme-laketekapo',
+            'Mount Cook': 'theme-mountcook',
+            'Queenstown': 'theme-queenstown',
+            'Wanaka': 'theme-wanaka',
+            'Te Anau': 'theme-teanau',
+            'Rotorua': 'theme-rotorua',
+            'Auckland': 'theme-auckland'
         };
 
-        // --- CORE FUNCTIONS FOR PERSISTENCE ---
-        
-        // 1. Load Data
-        function loadCheckboxes() {
-            const savedSelections = JSON.parse(localStorage.getItem('restaurantSelections')) || {};
-            const tableBody = document.getElementById('itineraryTableBody');
-            let html = '';
-            let previousLocation = '';
+        // Map location names to the appropriate text color theme
+        const textThemeClasses = {
+            'Christchurch': 'light-text-theme', // Dark image
+            'Lake Tekapo': 'light-text-theme',  // Dark image
+            'Mount Cook': 'dark-text-theme',   // Bright image
+            'Queenstown': 'light-text-theme',  // Medium/Dark image
+            'Wanaka': 'dark-text-theme',       // Bright image
+            'Te Anau': 'dark-text-theme',      // Medium/Bright image
+            'Rotorua': 'light-text-theme',     // Medium/Dark image
+            'Auckland': 'light-text-theme'     // Medium/Dark image
+        };
 
-            itineraryData.forEach((row, index) => {
-                const locationName = row[1];
-                const locationClass = locationThemes[locationName] || '';
-                const uniqueId = createUniqueId(row[0] + index); 
-                const isChecked = savedSelections[uniqueId] ? 'checked' : '';
-                const scoreClass = 'score-' + (row[8] >= 4 ? 5 : row[8]);
+        // Map location names to the appropriate hover background color theme
+        const hoverThemeClasses = {
+            'Christchurch': 'dark-hover',
+            'Lake Tekapo': 'dark-hover',
+            'Mount Cook': 'light-hover',
+            'Queenstown': 'dark-hover',
+            'Wanaka': 'light-hover',
+            'Te Anau': 'light-hover',
+            'Rotorua': 'dark-hover',
+            'Auckland': 'dark-hover'
+        };
 
+
+        /**
+         * Generates the HTML for a single table given the location name and its data rows.
+         */
+        function generateTableHTML(locationName, locationData) {
+            // Retrieve the specific theme and text classes for the location
+            const themeClass = locationThemeClasses[locationName];
+            const textClass = textThemeClasses[locationName];
+            const hoverClass = hoverThemeClasses[locationName]; // New hover class
+            
+            let tableHtml = `<table class="location-table">`;
+            
+            // 1. Caption/Title
+            tableHtml += `<caption>Dining Options in ${locationName}</caption>`;
+
+            // 2. Table Header (The same for all tables, minus the Location column)
+            tableHtml += `
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Accommodation / Activity</th>
+                        <th>Restaurant Option</th>
+                        <th>Cuisine</th>
+                        <th title="Highly likely dish">Sample Vegetarian Dish</th>
+                        <th title="Highly likely dish">Sample Pescatarian Dish</th>
+                        <th title="Highly likely dish">Sample Meat Dish</th>
+                        <th>Suitability Score (1-5)</th>
+                        <th>Distance from Hotel</th>
+                        <th>Contact Info 📞</th>
+                        <th>Selected ✅</th>
+                    </tr>
+                </thead>
+                <tbody class="location-themed-body ${themeClass} ${textClass} ${hoverClass}">`; // Apply all three classes here
+
+            // 3. Table Body (Data Rows)
+            locationData.forEach((row, index) => {
+                // Indices in itineraryData: [0:Date, 1:Location, 2:Accommodation, 3:Restaurant, 4:Cuisine, 5:Veg, 6:Pesc, 7:Meat, 8:Score, 9:Distance, 10:Contact]
+                const date = row[0];
+                const accommodation = row[2];
+                const restaurant = row[3];
+                const cuisine = row[4];
+                const vegDish = row[5];
+                const pescDish = row[6];
+                const meatDish = row[7];
+                const score = row[8];
+                const distance = row[9];
                 const contactInfo = row[10];
+
+                const uniqueId = createUniqueId(date + index + restaurant); 
+                const savedSelections = JSON.parse(localStorage.getItem('restaurantSelections')) || {};
+                const isChecked = savedSelections[uniqueId] ? 'checked' : '';
+                // The score color remains fixed for good visibility regardless of background
+                const scoreClass = 'score-' + (score >= 4 ? 5 : score);
+
                 const parts = contactInfo.split(' / ');
                 const phoneNumber = parts[0];
                 const emailAddress = parts[1];
                 const websiteURL = parts[2];
-                
-                // Add separator class if location changes from the previous row
-                let rowClasses = locationClass;
-                if (locationName !== previousLocation && previousLocation !== '') {
-                    rowClasses += ' location-separator';
-                }
-                previousLocation = locationName;
 
                 const contactHTML = `
                     <a href="tel:${phoneNumber.replace(/[^0-9+]/g, '')}">📞 ${phoneNumber}</a>
@@ -304,51 +394,76 @@
                     <a href="${websiteURL}" target="_blank">🌐 Website</a>
                 `;
 
-                // Apply the theme class to the entire row
-                html += `<tr class="${rowClasses}">`; 
+                // The row class helps with alternating colors (since tr:nth-child(even) is used)
+                const rowClasses = index % 2 === 0 ? 'even-row' : 'odd-row'; 
                 
-                // Columns 1-10 (Data)
-                html += '<td class="date-location">' + row[0] + '</td>';
-                html += '<td class="date-location">' + row[1] + '</td>';
-                html += '<td class="accommodation">' + row[2] + '</td>';
-                html += '<td>' + row[3] + '</td>';
-                html += '<td>' + row[4] + '</td>';
-                html += '<td class="dietary-col">' + row[5] + '</td>';
-                html += '<td class="dietary-col">' + row[6] + '</td>';
-                html += '<td class="dietary-col">' + row[7] + '</td>';
-                html += '<td class="' + scoreClass + '">' + row[8] + '</td>';
-                html += '<td>' + row[9] + '</td>';
+                tableHtml += `<tr class="${rowClasses}">`; 
+                
+                // Note: The Location column (index 1) is intentionally skipped here.
+                tableHtml += '<td class="date-location">' + date + '</td>';
+                tableHtml += '<td class="accommodation">' + accommodation + '</td>';
+                tableHtml += '<td>' + restaurant + '</td>';
+                tableHtml += '<td>' + cuisine + '</td>';
+                tableHtml += '<td class="dietary-col">' + vegDish + '</td>';
+                tableHtml += '<td class="dietary-col">' + pescDish + '</td>';
+                tableHtml += '<td class="dietary-col">' + meatDish + '</td>';
+                tableHtml += '<td class="' + scoreClass + '">' + score + '</td>';
+                tableHtml += '<td>' + distance + '</td>';
                 
                 // Contact Info Column
-                html += '<td class="contact-info">' + contactHTML + '</td>';
+                tableHtml += '<td class="contact-info">' + contactHTML + '</td>';
                 
                 // Checkbox Column
-                html += '<td><input type="checkbox" data-id="' + uniqueId + '" ' + isChecked + ' onchange="saveSelection(this)"></td>';
-                html += '</tr>';
+                tableHtml += '<td><input type="checkbox" data-id="' + uniqueId + '" ' + isChecked + ' onchange="saveSelection(this)"></td>';
+                tableHtml += '</tr>';
             });
 
-            tableBody.innerHTML = html;
+            tableHtml += `</tbody></table>`;
+            return tableHtml;
         }
 
-        // 2. Save Data (No change to this function)
+
+        /**
+         * Groups itinerary data by location and renders a separate table for each group.
+         */
+        function renderItineraries() {
+            const container = document.getElementById('itineraryContainer');
+            let allTablesHtml = '';
+
+            // Group data by location name (row[1])
+            const groupedData = itineraryData.reduce((acc, row) => {
+                const location = row[1];
+                if (!acc[location]) {
+                    acc[location] = [];
+                }
+                acc[location].push(row);
+                return acc;
+            }, {});
+
+            // Generate a table for each location group
+            for (const location in groupedData) {
+                allTablesHtml += generateTableHTML(location, groupedData[location]);
+            }
+
+            container.innerHTML = allTablesHtml;
+        }
+
+        // 2. Save Data - Re-use the existing saving logic
         function saveSelection(checkbox) {
             const uniqueId = checkbox.getAttribute('data-id');
             const savedSelections = JSON.parse(localStorage.getItem('restaurantSelections')) || {};
             
             if (checkbox.checked) {
-                // If checked, save true
                 savedSelections[uniqueId] = true;
             } else {
-                // If unchecked, remove or set to false
                 delete savedSelections[uniqueId]; 
             }
             
-            // Save the updated object back to LocalStorage
             localStorage.setItem('restaurantSelections', JSON.stringify(savedSelections));
         }
 
         // Run on page load
-        window.onload = loadCheckboxes;
+        window.onload = renderItineraries;
         
     </script>
 </body>
