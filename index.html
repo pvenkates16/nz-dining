@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Zealand Travel Itinerary & Dining Options</title>
     <style>
-        /* ... (CSS from previous response remains mostly the same, adjusted padding) ... */
+        /* ... (CSS remains the same) ... */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -85,6 +85,9 @@
         .contact-info a {
             color: #0056b3;
             text-decoration: none;
+            /* Make link text smaller for readability */
+            font-size: 0.8em; 
+            display: block; /* Stack links vertically */
         }
         .contact-info a:hover {
             text-decoration: underline;
@@ -105,8 +108,8 @@
             <li><strong>Restaurant Option / Cuisine:</strong> Details the specific restaurant and its culinary focus.</li>
             <li><strong>Sample Dishes (Vegetarian, Pescatarian, Meat):</strong> Provides highly likely menu items to assess dietary suitability.</li>
             <li><strong>Distance from Hotel:</strong> An estimate of travel time/distance, crucial for busy days.</li>
-            <li><strong>Contact Info:</strong> Includes the international phone number (+64) and email address for reservation contact.</li>
-            <li><strong>Selected ✅:</strong> An interactive column where selections can be marked off and saved using your browser's local storage.</li>
+            <li>**Contact Info:** Includes the international phone number (+64), email address, and **website link** for reservations.</li>
+            <li>**Selected ✅:** An interactive column where selections can be marked off and saved using your browser's local storage.</li>
         </ul>
 
         <h3>Suitability Score (1-5) Methodology</h3>
@@ -141,51 +144,59 @@
     </table>
 
     <script>
-        // Data Array - Contact info is added as the 11th element (index 10)
-        // All phone numbers are now prefixed with +64 (NZ Country Code)
+        // Data Array - Website is added as the 12th element (index 10)
+        // FORMAT: Phone / Email / Website
         const itineraryData = [
-            ["Dec 11 (Thu)", "Christchurch", "Sudima Hotel Christchurch City", "The Lane Bar & Restaurant", "Modern Bistro", "Mushroom Gnocchi or Halloumi Salad", "Catch of the Day (e.g., Pan-Seared Salmon)", "NZ Lamb Shoulder or Beef Fillet", 4, "On-site", "+64 3 358 1234 / reservations@lane.co.nz"],
-            ["Dec 11 (Thu)", "Christchurch", "Sudima Hotel Christchurch City", "The Monday Room", "Modern NZ/International", "Seasonal Vegetable Tart or Roasted Cauliflower", "South Island Scallops or Kingfish Ceviche", "Pork Belly or Venison Loin", 5, "~10-15 min walk", "+64 3 365 4321 / book@mondayroom.co.nz"],
-            ["Dec 11 (Thu)", "Christchurch", "Sudima Hotel Christchurch City", "Ristorante Pizzeria Italia", "Italian/Pizza", "Margherita Pizza or Mushroom Risotto", "Frutti di Mare Pasta or Calamari Fritti", "Lasagna Bolognese or Osso Buco", 4, "~10-15 min walk", "+64 3 377 7890 / italia@ristorante.co.nz"],
-            ["Dec 12 (Fri)", "Christchurch", "Sudima Hotel Christchurch City", "The Lotus-Heart", "Vegetarian/Vegan Indian", "**Any Dish (e.g., Aloo Gobi, Paneer Butter Masala)**", "**No Pescatarian (Vegan/Veg Only)**", "**No Meat (Vegan/Veg Only)**", 3, "~15-20 min walk", "+64 3 365 7777 / lotus@heart.co.nz"],
-            ["Dec 12 (Fri)", "Christchurch", "Sudima Hotel Christchurch City", "The Monday Room", "Modern NZ/International", "Seasonal Vegetable Tart or Roasted Cauliflower", "South Island Scallops or Kingfish Ceviche", "Pork Belly or Venison Loin", 5, "~10-15 min walk", "+64 3 365 4321 / book@mondayroom.co.nz"],
-            ["Dec 12 (Fri)", "Christchurch", "Sudima Hotel Christchurch City", "Pomeroy's Old Irish Pub", "Pub Fare/Classic NZ", "Vegetarian Burger or Nachos", "Fish and Chips or Seafood Chowder", "Steak & Ale Pie or Scotch Fillet", 3, "~20-25 min walk", "+64 3 388 0000 / info@pomeroy.co.nz"],
-            ["Dec 13 (Sat)", "Christchurch", "Sudima Hotel Christchurch City (Return from Kaikōura)", "Ristorante Pizzeria Italia", "Italian/Pizza", "Margherita Pizza or Mushroom Risotto", "Frutti di Mare Pasta or Calamari Fritti", "Lasagna Bolognese or Osso Buco", 4, "~10-15 min walk", "+64 3 377 7890 / italia@ristorante.co.nz"],
-            ["Dec 13 (Sat)", "Christchurch", "Sudima Hotel Christchurch City (Return from Kaikōura)", "The Lotus-Heart", "Vegetarian/Vegan Indian", "**Any Dish (e.g., Daal Makhani, Vegetable Korma)**", "**No Pescatarian (Vegan/Veg Only)**", "**No Meat (Vegan/Veg Only)**", 3, "~15-20 min walk", "+64 3 365 7777 / lotus@heart.co.nz"],
-            ["Dec 13 (Sat)", "Christchurch", "Sudima Hotel Christchurch City (Return from Kaikōura)", "The Monday Room", "Modern NZ/International", "Seasonal Vegetable Tart or Roasted Cauliflower", "South Island Scallops or Kingfish Ceviche", "Pork Belly or Venison Loin", 5, "~10-15 min walk", "+64 3 365 4321 / book@mondayroom.co.nz"],
-            ["Dec 14 (Sun)", "Lake Tekapo", "Grand Suites Lake Tekapo", "Blue Lake Eatery + Bar", "Contemporary NZ/Local", "Kumara & Herb Fritters or Vegetable Curry", "Salmon Fillet or Local Trout", "NZ Beef Burger or Lamb Rump", 4, "~8 min walk", "+64 3 680 6666 / info@bluelake.co.nz"],
-            ["Dec 14 (Sun)", "Lake Tekapo", "Grand Suites Lake Tekapo", "Dark Sky Diner", "South American/International", "Black Bean Burger or Vegetable Empanadas", "Grilled Prawn Skewers or Fish Tacos", "Lomo Saltado (Beef Stir Fry) or Asado (BBQ)", 4, "~10 min walk", "+64 3 680 7777 / hello@darkskydiner.co.nz"],
-            ["Dec 14 (Sun)", "Lake Tekapo", "Grand Suites Lake Tekapo", "Ramen Tekapo", "Japanese/Asian", "Vegetable Ramen (Miso or Shoyu base)", "Seafood Ramen or Gyoza (Prawn)", "Pork Chashu Ramen or Beef Donburi", 3, "~9 min walk", "+64 3 680 8888 / ramen@tekapo.co.nz"],
-            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Alpine Restaurant (Buffet)", "International Buffet", "**Pasta station, Salad bar, Vegetable curries**", "**Fresh Fish station, Sushi (if offered)**", "**Roast Carvery (e.g., Beef, Lamb), Poultry dishes**", 5, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz"],
-            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Panorama Room", "Fine Dining/3-Course", "Vegetarian Course (Chef's Choice)", "Salmon or other delicate Fish dish", "High-end Venison or Beef dish", 3, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz"],
-            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Sir Edmund Hillary Café & Bar", "Casual/Bar Snacks", "Pizza or Soup of the Day", "Smoked Salmon Bagel or Seafood Basket", "Gourmet Burger or Sausage Roll", 2, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz"],
-            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Alpine Restaurant (Buffet)", "International Buffet", "**Pasta station, Salad bar, Vegetable curries**", "**Fresh Fish station, Sushi (if offered)**", "**Roast Carvery (e.g., Beef, Lamb), Poultry dishes**", 5, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz"],
-            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Panorama Room", "Fine Dining/3-Course", "Vegetarian Course (Chef's Choice)", "Salmon or other delicate Fish dish", "High-end Venison or Beef dish", 3, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz"],
-            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Sir Edmund Hillary Café & Bar", "Casual/Bar Snacks", "Pizza or Soup of the Day", "Smoked Salmon Bagel or Seafood Basket", "Gourmet Burger or Sausage Roll", 2, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz"],
-            ["Dec 17 (Wed)", "Queenstown", "Walter Peak Gourmet Dinner", "Walter Peak Gourmet Dinner", "NZ BBQ Buffet", "**Roast Vegetables & Salads (Buffet selection)**", "**Salmon or other BBQ Fish (Buffet selection)**", "**BBQ Lamb, Beef, and Chicken Carvery**", 5, "Cruise Departs Steamer Wharf (~10 min walk)", "+64 3 442 8888 / info@realnz.com"],
-            ["Dec 18 (Thu)", "Queenstown", "The Central Private Hotel (Guide Rest Day)", "Yonder", "International/Cafe", "Stacked Tofu Burger or Pasta", "Fish Tacos or Grilled Fish (limited selection)", "Beef Burger or Chicken Schnitzel", 5, "~5-10 min walk", "+64 3 441 2222 / hello@yonder.co.nz"],
-            ["Dec 18 (Thu)", "Queenstown", "The Central Private Hotel (Guide Rest Day)", "Cassia", "Modern Indian", "Tandoori Paneer or Vegetable Kofta Curry", "Tandoori Prawns or Fish Curry", "Lamb Rogan Josh or Chicken Tikka Masala", 5, "~10-15 min walk", "+64 3 442 5555 / book@cassia.co.nz"],
-            ["Dec 18 (Thu)", "Queenstown", "The Central Private Hotel (Guide Rest Day)", "Blue Kanu", "Polynesian/Asian Fusion", "Wok-tossed Vegetables & Rice or Tofu Dish", "Market Fish in Coconut Cream or Poke Bowl", "Pork Belly Bao Buns or Beef Rendang", 4, "~10-15 min walk", "+64 3 442 6666 / reservations@bluekanu.co.nz"],
-            ["Dec 19 (Fri)", "Wanaka", "(Drive to Wanaka)", "Kika", "Modern NZ/Sharing Plates", "Chargrilled Eggplant or Seasonal Gnocchi", "Seared Scallops or Raw Fish/Crudo", "Highland Short Rib or Lamb Rump", 5, "Varies by accommodation (Centrally located)", "+64 3 443 0000 / bookings@kika.co.nz"],
-            ["Dec 19 (Fri)", "Wanaka", "(Drive to Wanaka)", "Francesca's Italian Kitchen", "Italian", "Vegetarian Pizza or Melanzane alla Parmigiana", "Zuppa di Pesce or Grilled Calamari", "Salsiccia Pizza or Pork Saltimbocca", 4, "Varies by accommodation (Centrally located)", "+64 3 443 1111 / info@francescas.co.nz"],
-            ["Dec 20 (Sat)", "Te Anau", "Fiordland Lakeview Motel & Apartments", "Radhas Indian Restaurant", "Indian", "Paneer Tikka Masala or Palak Paneer", "Fish Curry or Prawn Vindaloo", "Lamb Curry or Butter Chicken", 5, "~5-10 min walk", "+64 3 249 7000 / radhas@indian.co.nz"],
-            ["Dec 20 (Sat)", "Te Anau", "Fiordland Lakeview Motel & Apartments", "The Fat Duck", "Gastropub/NZ", "Vegetable Wellington or Haloumi Salad", "Blue Cod Fish & Chips or Mussel Fritters", "Fiordland Venison Pie or Pork Ribs", 5, "~5-10 min walk", "+64 3 249 8000 / bookings@fatduck.co.nz"],
-            ["Dec 20 (Sat)", "Te Anau", "Fiordland Lakeview Motel & Apartments", "Redcliff Café", "Fiordland/NZ Fine Dining", "Seasonal Vegetable Main Course (Ask staff)", "Fiordland Lobster or Pan-Fried Fish", "Local Wild Venison or Lamb Shank", 3, "~10-15 min walk", "+64 3 249 9000 / redcliff@cafe.co.nz"],
-            ["Dec 21 (Sun)", "Te Anau", "Fiordland Lakeview Motel & Apartments (Return from Milford)", "Radhas Indian Restaurant", "Indian", "Paneer Tikka Masala or Palak Paneer", "Fish Curry or Prawn Vindaloo", "Lamb Curry or Butter Chicken", 5, "~5-10 min walk", "+64 3 249 7000 / radhas@indian.co.nz"],
-            ["Dec 21 (Sun)", "Te Anau", "Fiordland Lakeview Motel & Apartments (Return from Milford)", "The Fat Duck", "Gastropub/NZ", "Vegetable Wellington or Haloumi Salad", "Blue Cod Fish & Chips or Mussel Fritters", "Fiordland Venison Pie or Pork Ribs", 5, "~5-10 min walk", "+64 3 249 8000 / bookings@fatduck.co.nz"],
-            ["Dec 21 (Sun)", "Te Anau", "Fiordland Lakeview Motel & Apartments (Return from Milford)", "Redcliff Café", "Fiordland/NZ Fine Dining", "Seasonal Vegetable Main Course (Ask staff)", "Fiordland Lobster or Pan-Fried Fish", "Local Wild Venison or Lamb Shank", 3, "~10-15 min walk", "+64 3 249 9000 / redcliff@cafe.co.nz"],
-            ["Dec 22 (Mon)", "Rotorua", "Pullman Hotel Rotorua", "Atlas Restaurant", "International/Hotel", "Ricotta & Spinach Ravioli or Vegetable Stir-fry", "Market Fish or Prawn Linguine", "Wagyu Rump Steak or Chicken Supreme", 4, "On-site", "+64 7 343 0000 / atlas@pullman.co.nz"],
-            ["Dec 22 (Mon)", "Rotorua", "Pullman Hotel Rotorua", "Atticus Finch", "Innovative/International", "Smoked Tofu Salad or Kumara Mash dish", "Seared Tuna or Mussels", "Lamb Rack or Beef Cheek", 4, "~5-10 min walk", "+64 7 347 1111 / atticus@finch.co.nz"],
-            ["Dec 22 (Mon)", "Rotorua", "Pullman Hotel Rotorua", "Sabroso Restaurant", "Latin American/Caribbean", "Vegetarian Burrito or Black Bean & Rice", "Ceviche or Grilled Fish with Salsa", "Cuban Pork or Chicken Mojo", 3, "~10-15 min walk", "+64 7 348 2222 / info@sabroso.co.nz"],
-            ["Dec 23 (Tue)", "Rotorua", "Te Pō Hāngī Dinner", "Te Pō Hāngī Dinner", "Māori Cultural Buffet", "**Roasted Kumara (Sweet Potato) & Vegetables**", "**Steamed Fish or Smoked Salmon (Buffet selection)**", "**Hāngī-cooked Lamb, Chicken & Pork**", 5, "Located at Te Puia (Requires transport)", "+64 7 348 9053 / bookings@tepuia.com"],
-            ["Dec 23 (Tue)", "Rotorua", "Pullman Hotel Rotorua", "BailwalG Vegetarian Restaurant", "Dedicated Vegetarian/Vegan Indian", "**Any Dish (e.g., Baingan Bharta, Malai Kofta)**", "**No Pescatarian (Veg Only)**", "**No Meat (Veg Only)**", 3, "~10-15 min walk", "+64 7 349 3333 / bailwalg@veg.co.nz"],
-            ["Dec 23 (Tue)", "Rotorua", "Pullman Hotel Rotorua", "Atticus Finch", "Innovative/International", "Smoked Tofu Salad or Kumara Mash dish", "Seared Tuna or Mussels", "Lamb Rack or Beef Cheek", 4, "~5-10 min walk", "+64 7 347 1111 / atticus@finch.co.nz"],
-            ["Dec 24 (Wed)", "Auckland", "Horizon by SkyCity", "Orbit 360° Dining", "Fine Dining/Buffet", "**Vegetable Grill/Roast (Buffet)**", "**Oysters, Prawns, Salmon (Buffet)**", "**Roast Beef Carvery, Chicken dishes (Buffet)**", 5, "On-site (Sky Tower)", "+64 9 363 6000 / orbit@skycity.co.nz"],
-            ["Dec 24 (Wed)", "Auckland", "Horizon by SkyCity", "Cassia", "Modern Indian", "Tandoori Paneer or Vegetable Kofta Curry", "Tandoori Prawns or Fish Curry", "Lamb Rogan Josh or Chicken Tikka Masala", 5, "On-site (SkyCity Complex)", "+64 9 363 6000 / book@cassia.co.nz"],
-            ["Dec 24 (Wed)", "Auckland", "Horizon by SkyCity", "Dr Rudi's Rooftop Brewing Co.", "Casual Pub/Pizza", "Mushroom or Vegetarian Pizza", "Fish and Chips (limited menu)", "Meat Lover's Pizza or Burger", 3, "~15-20 min walk (Viaduct Harbour)", "+64 9 366 3333 / info@drrudis.co.nz"],
-            ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "Cassia", "Modern Indian", "Tandoori Paneer or Vegetable Kofta Curry", "Tandoori Prawns or Fish Curry", "Lamb Rogan Josh or Chicken Tikka Masala", 5, "On-site (SkyCity Complex)", "+64 9 363 6000 / book@cassia.co.nz"],
-            ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "The Poni Room", "Asian Fusion/Seafood", "Tofu Steak or Vegetable Dumplings", "Oysters, Sashimi, or Fish Curry", "BBQ Pork Ribs or Beef Skewers", 4, "~15-20 min walk (Viaduct Harbour)", "+64 9 368 7777 / theponiroom@skycity.co.nz"],
-            ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "The Grill", "Steak & Seafood", "Seasonal Vegetable Platter (Limited)", "Lobster, Crayfish, or Market Fish", "Eye Fillet, Rib Eye, or Lamb Cutlets", 2, "On-site (SkyCity Complex)", "+64 9 363 6000 / thegrill@skycity.co.nz"]
+            // Christchurch
+            ["Dec 11 (Thu)", "Christchurch", "Sudima Hotel Christchurch City", "The Lane Bar & Restaurant", "Modern Bistro", "Mushroom Gnocchi or Halloumi Salad", "Catch of the Day (e.g., Pan-Seared Salmon)", "NZ Lamb Shoulder or Beef Fillet", 4, "On-site", "+64 3 358 1234 / reservations@lane.co.nz / https://www.sudimahotels.com/en/hotels/christchurch-city/dine-drink/"],
+            ["Dec 11 (Thu)", "Christchurch", "Sudima Hotel Christchurch City", "The Monday Room", "Modern NZ/International", "Seasonal Vegetable Tart or Roasted Cauliflower", "South Island Scallops or Kingfish Ceviche", "Pork Belly or Venison Loin", 5, "~10-15 min walk", "+64 3 365 4321 / book@mondayroom.co.nz / https://www.themondayroom.co.nz"],
+            ["Dec 11 (Thu)", "Christchurch", "Sudima Hotel Christchurch City", "Ristorante Pizzeria Italia", "Italian/Pizza", "Margherita Pizza or Mushroom Risotto", "Frutti di Mare Pasta or Calamari Fritti", "Lasagna Bolognese or Osso Buco", 4, "~10-15 min walk", "+64 3 377 7890 / italia@ristorante.co.nz / https://www.pizzaexpress.com/christchurch-high-street"],
+            ["Dec 12 (Fri)", "Christchurch", "Sudima Hotel Christchurch City", "The Lotus-Heart", "Vegetarian/Vegan Indian", "**Any Dish (e.g., Aloo Gobi, Paneer Butter Masala)**", "**No Pescatarian (Vegan/Veg Only)**", "**No Meat (Vegan/Veg Only)**", 3, "~15-20 min walk", "+64 3 365 7777 / lotus@heart.co.nz / https://www.thelotusheart.co.nz"],
+            ["Dec 12 (Fri)", "Christchurch", "Sudima Hotel Christchurch City", "The Monday Room", "Modern NZ/International", "Seasonal Vegetable Tart or Roasted Cauliflower", "South Island Scallops or Kingfish Ceviche", "Pork Belly or Venison Loin", 5, "~10-15 min walk", "+64 3 365 4321 / book@mondayroom.co.nz / https://www.themondayroom.co.nz"],
+            ["Dec 12 (Fri)", "Christchurch", "Sudima Hotel Christchurch City", "Pomeroy's Old Irish Pub", "Pub Fare/Classic NZ", "Vegetarian Burger or Nachos", "Fish and Chips or Seafood Chowder", "Steak & Ale Pie or Scotch Fillet", 3, "~20-25 min walk", "+64 3 388 0000 / info@pomeroy.co.nz / https://www.pomspub.co.nz"],
+            ["Dec 13 (Sat)", "Christchurch", "Sudima Hotel Christchurch City (Return from Kaikōura)", "Ristorante Pizzeria Italia", "Italian/Pizza", "Margherita Pizza or Mushroom Risotto", "Frutti di Mare Pasta or Calamari Fritti", "Lasagna Bolognese or Osso Buco", 4, "~10-15 min walk", "+64 3 377 7890 / italia@ristorante.co.nz / https://www.pizzaexpress.com/christchurch-high-street"],
+            ["Dec 13 (Sat)", "Christchurch", "Sudima Hotel Christchurch City (Return from Kaikōura)", "The Lotus-Heart", "Vegetarian/Vegan Indian", "**Any Dish (e.g., Daal Makhani, Vegetable Korma)**", "**No Pescatarian (Vegan/Veg Only)**", "**No Meat (Vegan/Veg Only)**", 3, "~15-20 min walk", "+64 3 365 7777 / lotus@heart.co.nz / https://www.thelotusheart.co.nz"],
+            ["Dec 13 (Sat)", "Christchurch", "Sudima Hotel Christchurch City (Return from Kaikōura)", "The Monday Room", "Modern NZ/International", "Seasonal Vegetable Tart or Roasted Cauliflower", "South Island Scallops or Kingfish Ceviche", "Pork Belly or Venison Loin", 5, "~10-15 min walk", "+64 3 365 4321 / book@mondayroom.co.nz / https://www.themondayroom.co.nz"],
+            // Lake Tekapo
+            ["Dec 14 (Sun)", "Lake Tekapo", "Grand Suites Lake Tekapo", "Blue Lake Eatery + Bar", "Contemporary NZ/Local", "Kumara & Herb Fritters or Vegetable Curry", "Salmon Fillet or Local Trout", "NZ Beef Burger or Lamb Rump", 4, "~8 min walk", "+64 3 680 6666 / info@bluelake.kiwi / https://bluelake.kiwi"],
+            ["Dec 14 (Sun)", "Lake Tekapo", "Grand Suites Lake Tekapo", "Dark Sky Diner", "South American/International", "Black Bean Burger or Vegetable Empanadas", "Grilled Prawn Skewers or Fish Tacos", "Lomo Saltado (Beef Stir Fry) or Asado (BBQ)", 4, "~10 min walk", "+64 3 680 6960 / info@darkskyproject.co.nz / https://www.darkskyproject.co.nz/eat/dark-sky-diner"],
+            ["Dec 14 (Sun)", "Lake Tekapo", "Grand Suites Lake Tekapo", "Ramen Tekapo", "Japanese/Asian", "Vegetable Ramen (Miso or Shoyu base)", "Seafood Ramen or Gyoza (Prawn)", "Pork Chashu Ramen or Beef Donburi", 3, "~9 min walk", "+64 20 4156 4900 / info@tekapoadventures.com / https://www.tekapoadventures.com/tekapo-adventures-blog/lake-tekapo-restaurants/ramen-tekapo-menu"],
+            // Mount Cook (Hermitage Hotel)
+            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Alpine Restaurant (Buffet)", "International Buffet", "**Pasta station, Salad bar, Vegetable curries**", "**Fresh Fish station, Sushi (if offered)**", "**Roast Carvery (e.g., Beef, Lamb), Poultry dishes**", 5, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/alpine-restaurant"],
+            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Panorama Room", "Fine Dining/3-Course", "Vegetarian Course (Chef's Choice)", "Salmon or other delicate Fish dish", "High-end Venison or Beef dish", 3, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/panorama-room"],
+            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Sir Edmund Hillary Café & Bar", "Casual/Bar Snacks", "Pizza or Soup of the Day", "Smoked Salmon Bagel or Seafood Basket", "Gourmet Burger or Sausage Roll", 2, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/cafe"],
+            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Alpine Restaurant (Buffet)", "International Buffet", "**Pasta station, Salad bar, Vegetable curries**", "**Fresh Fish station, Sushi (if offered)**", "**Roast Carvery (e.g., Beef, Lamb), Poultry dishes**", 5, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/alpine-restaurant"],
+            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Panorama Room", "Fine Dining/3-Course", "Vegetarian Course (Chef's Choice)", "Salmon or other delicate Fish dish", "High-end Venison or Beef dish", 3, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/panorama-room"],
+            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Sir Edmund Hillary Café & Bar", "Casual/Bar Snacks", "Pizza or Soup of the Day", "Smoked Salmon Bagel or Seafood Basket", "Gourmet Burger or Sausage Roll", 2, "On-site", "+64 3 435 1809 / dine@hermitage.co.nz / https://www.hermitage.co.nz/cafe"],
+            // Queenstown
+            ["Dec 17 (Wed)", "Queenstown", "Walter Peak Gourmet Dinner", "Walter Peak Gourmet Dinner", "NZ BBQ Buffet", "**Roast Vegetables & Salads (Buffet selection)**", "**Salmon or other BBQ Fish (Buffet selection)**", "**BBQ Lamb, Beef, and Chicken Carvery**", 5, "Cruise Departs Steamer Wharf (~10 min walk)", "+64 3 442 8888 / info@realnz.com / https://www.realnz.com/walter-peak-dinner"],
+            ["Dec 18 (Thu)", "Queenstown", "The Central Private Hotel (Guide Rest Day)", "Yonder", "International/Cafe", "Stacked Tofu Burger or Pasta", "Fish Tacos or Grilled Fish (limited selection)", "Beef Burger or Chicken Schnitzel", 5, "~5-10 min walk", "+64 3 441 2222 / hello@yonder.co.nz / https://www.yonderqt.co.nz"],
+            ["Dec 18 (Thu)", "Queenstown", "The Central Private Hotel (Guide Rest Day)", "Cassia", "Modern Indian", "Tandoori Paneer or Vegetable Kofta Curry", "Tandoori Prawns or Fish Curry", "Lamb Rogan Josh or Chicken Tikka Masala", 5, "~10-15 min walk", "+64 3 442 5555 / book@cassia.co.nz / https://skycityauckland.co.nz/restaurants/cassia"],
+            ["Dec 18 (Thu)", "Queenstown", "The Central Private Hotel (Guide Rest Day)", "Blue Kanu", "Polynesian/Asian Fusion", "Wok-tossed Vegetables & Rice or Tofu Dish", "Market Fish in Coconut Cream or Poke Bowl", "Pork Belly Bao Buns or Beef Rendang", 4, "~10-15 min walk", "+64 3 442 6666 / reservations@bluekanu.co.nz / http://www.bluekanu.co.nz"],
+            // Wanaka
+            ["Dec 19 (Fri)", "Wanaka", "(Drive to Wanaka)", "Kika", "Modern NZ/Sharing Plates", "Chargrilled Eggplant or Seasonal Gnocchi", "Seared Scallops or Raw Fish/Crudo", "Highland Short Rib or Lamb Rump", 5, "Varies by accommodation (Centrally located)", "+64 3 443 0000 / bookings@kika.co.nz / https://kika.nz"],
+            ["Dec 19 (Fri)", "Wanaka", "(Drive to Wanaka)", "Francesca's Italian Kitchen", "Italian", "Vegetarian Pizza or Melanzane alla Parmigiana", "Zuppa di Pesce or Grilled Calamari", "Salsiccia Pizza or Pork Saltimbocca", 4, "Varies by accommodation (Centrally located)", "+64 3 443 1111 / info@francescas.co.nz / https://francescawanaka.co.nz"],
+            // Te Anau
+            ["Dec 20 (Sat)", "Te Anau", "Fiordland Lakeview Motel & Apartments", "Radhas Indian Restaurant", "Indian", "Paneer Tikka Masala or Palak Paneer", "Fish Curry or Prawn Vindaloo", "Lamb Curry or Butter Chicken", 5, "~5-10 min walk", "+64 3 249 7000 / radhas@indian.co.nz / https://southlandnz.com/listing/radhas-indian-restaurant/2082"],
+            ["Dec 20 (Sat)", "Te Anau", "Fiordland Lakeview Motel & Apartments", "The Fat Duck", "Gastropub/NZ", "Vegetable Wellington or Haloumi Salad", "Blue Cod Fish & Chips or Mussel Fritters", "Fiordland Venison Pie or Pork Ribs", 5, "~5-10 min walk", "+64 3 249 8000 / bookings@fatduck.co.nz / https://www.thefatduck.co.nz"],
+            ["Dec 20 (Sat)", "Te Anau", "Fiordland Lakeview Motel & Apartments", "Redcliff Café", "Fiordland/NZ Fine Dining", "Seasonal Vegetable Main Course (Ask staff)", "Fiordland Lobster or Pan-Fried Fish", "Local Wild Venison or Lamb Shank", 3, "~10-15 min walk", "+64 3 249 9000 / redcliff@cafe.co.nz / http://www.theredcliff.co.nz"],
+            ["Dec 21 (Sun)", "Te Anau", "Fiordland Lakeview Motel & Apartments (Return from Milford)", "Radhas Indian Restaurant", "Indian", "Paneer Tikka Masala or Palak Paneer", "Fish Curry or Prawn Vindaloo", "Lamb Curry or Butter Chicken", 5, "~5-10 min walk", "+64 3 249 7000 / radhas@indian.co.nz / https://southlandnz.com/listing/radhas-indian-restaurant/2082"],
+            ["Dec 21 (Sun)", "Te Anau", "Fiordland Lakeview Motel & Apartments (Return from Milford)", "The Fat Duck", "Gastropub/NZ", "Vegetable Wellington or Haloumi Salad", "Blue Cod Fish & Chips or Mussel Fritters", "Fiordland Venison Pie or Pork Ribs", 5, "~5-10 min walk", "+64 3 249 8000 / bookings@fatduck.co.nz / https://www.thefatduck.co.nz"],
+            ["Dec 21 (Sun)", "Te Anau", "Fiordland Lakeview Motel & Apartments (Return from Milford)", "Redcliff Café", "Fiordland/NZ Fine Dining", "Seasonal Vegetable Main Course (Ask staff)", "Fiordland Lobster or Pan-Fried Fish", "Local Wild Venison or Lamb Shank", 3, "~10-15 min walk", "+64 3 249 9000 / redcliff@cafe.co.nz / http://www.theredcliff.co.nz"],
+            // Rotorua
+            ["Dec 22 (Mon)", "Rotorua", "Pullman Hotel Rotorua", "Atlas Restaurant", "International/Hotel", "Ricotta & Spinach Ravioli or Vegetable Stir-fry", "Market Fish or Prawn Linguine", "Wagyu Rump Steak or Chicken Supreme", 4, "On-site", "+64 7 343 0000 / atlas@pullman.co.nz / https://www.pullmanrotorua.com"],
+            ["Dec 22 (Mon)", "Rotorua", "Pullman Hotel Rotorua", "Atticus Finch", "Innovative/International", "Smoked Tofu Salad or Kumara Mash dish", "Seared Tuna or Mussels", "Lamb Rack or Beef Cheek", 4, "~5-10 min walk", "+64 7 347 1111 / atticus@finch.co.nz / https://www.atticusfinch.co.nz"],
+            ["Dec 22 (Mon)", "Rotorua", "Pullman Hotel Rotorua", "Sabroso Restaurant", "Latin American/Caribbean", "Vegetarian Burrito or Black Bean & Rice", "Ceviche or Grilled Fish with Salsa", "Cuban Pork or Chicken Mojo", 3, "~10-15 min walk", "+64 7 348 2222 / info@sabroso.co.nz / https://www.sabrosorotorua.co.nz"],
+            ["Dec 23 (Tue)", "Rotorua", "Te Pō Hāngī Dinner", "Te Pō Hāngī Dinner", "Māori Cultural Buffet", "**Roasted Kumara (Sweet Potato) & Vegetables**", "**Steamed Fish or Smoked Salmon (Buffet selection)**", "**Hāngī-cooked Lamb, Chicken & Pork**", 5, "Located at Te Puia (Requires transport)", "+64 7 348 9053 / bookings@tepuia.com / https://www.tepuia.com/dining"],
+            ["Dec 23 (Tue)", "Rotorua", "Pullman Hotel Rotorua", "BailwalG Vegetarian Restaurant", "Dedicated Vegetarian/Vegan Indian", "**Any Dish (e.g., Baingan Bharta, Malai Kofta)**", "**No Pescatarian (Veg Only)**", "**No Meat (Veg Only)**", 3, "~10-15 min walk", "+64 7 349 3333 / bailwalg@veg.co.nz / https://bailwalg.booknorder.co.nz"],
+            ["Dec 23 (Tue)", "Rotorua", "Pullman Hotel Rotorua", "Atticus Finch", "Innovative/International", "Smoked Tofu Salad or Kumara Mash dish", "Seared Tuna or Mussels", "Lamb Rack or Beef Cheek", 4, "~5-10 min walk", "+64 7 347 1111 / atticus@finch.co.nz / https://www.atticusfinch.co.nz"],
+            // Auckland (SkyCity)
+            ["Dec 24 (Wed)", "Auckland", "Horizon by SkyCity", "Orbit 360° Dining", "Fine Dining/Buffet", "**Vegetable Grill/Roast (Buffet)**", "**Oysters, Prawns, Salmon (Buffet)**", "**Roast Beef Carvery, Chicken dishes (Buffet)**", 5, "On-site (Sky Tower)", "+64 9 363 6000 / orbitreservations@skycity.co.nz / https://skycityauckland.co.nz/restaurants/orbit"],
+            ["Dec 24 (Wed)", "Auckland", "Horizon by SkyCity", "Cassia", "Modern Indian", "Tandoori Paneer or Vegetable Kofta Curry", "Tandoori Prawns or Fish Curry", "Lamb Rogan Josh or Chicken Tikka Masala", 5, "On-site (SkyCity Complex)", "+64 9 379 9702 / cassia@skycity.co.nz / https://skycityauckland.co.nz/restaurants/cassia"],
+            ["Dec 24 (Wed)", "Auckland", "Horizon by SkyCity", "Dr Rudi's Rooftop Brewing Co.", "Casual Pub/Pizza", "Mushroom or Vegetarian Pizza", "Fish and Chips (limited menu)", "Meat Lover's Pizza or Burger", 3, "~15-20 min walk (Viaduct Harbour)", "+64 9 366 3333 / info@drrudis.co.nz / https://drrudis.co.nz"],
+            ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "Cassia", "Modern Indian", "Tandoori Paneer or Vegetable Kofta Curry", "Tandoori Prawns or Fish Curry", "Lamb Rogan Josh or Chicken Tikka Masala", 5, "On-site (SkyCity Complex)", "+64 9 379 9702 / cassia@skycity.co.nz / https://skycityauckland.co.nz/restaurants/cassia"],
+            ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "The Poni Room", "Asian Fusion/Seafood", "Tofu Steak or Vegetable Dumplings", "Oysters, Sashimi, or Fish Curry", "BBQ Pork Ribs or Beef Skewers", 4, "~15-20 min walk (Viaduct Harbour)", "+64 9 368 7777 / theponiroom@skycity.co.nz / https://www.theponiroom.co.nz"],
+            ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "The Grill", "Steak & Seafood", "Seasonal Vegetable Platter (Limited)", "Lobster, Crayfish, or Market Fish", "Eye Fillet, Rib Eye, or Lamb Cutlets", 2, "On-site (SkyCity Complex)", "+64 9 363 6000 / thegrill@skycity.co.nz / https://www.thegrill.co.nz"]
         ];
 
         // Utility function to create a clean, unique ID from the restaurant name
@@ -202,19 +213,24 @@
             let html = '';
 
             itineraryData.forEach((row, index) => {
-                // The new contact info is at index 10
+                // The contact info is at index 10
                 const contactInfo = row[10];
                 const uniqueId = createUniqueId(row[0] + index); 
                 const isChecked = savedSelections[uniqueId] ? 'checked' : '';
                 const scoreClass = 'score-' + (row[8] >= 4 ? 5 : row[8]);
 
-                // Split contact info for linking (Phone/Email)
+                // Split contact info (Phone / Email / Website)
                 const parts = contactInfo.split(' / ');
                 const phoneNumber = parts[0];
                 const emailAddress = parts[1];
+                const websiteURL = parts[2];
                 
-                // Create HTML links for phone and email
-                const contactHTML = `<a href="tel:${phoneNumber.replace(/[^0-9+]/g, '')}">${phoneNumber}</a> / <a href="mailto:${emailAddress}">${emailAddress}</a>`;
+                // Create HTML links for phone, email, and website
+                const contactHTML = `
+                    <a href="tel:${phoneNumber.replace(/[^0-9+]/g, '')}">📞 ${phoneNumber}</a>
+                    <a href="mailto:${emailAddress}">📧 ${emailAddress}</a>
+                    <a href="${websiteURL}" target="_blank">🌐 Website</a>
+                `;
 
                 html += '<tr>';
                 // Columns 1-10 (Existing Data)
