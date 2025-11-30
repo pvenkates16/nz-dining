@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Zealand Travel Itinerary & Dining Options</title>
+    <style>
+        /* ... (CSS from previous response remains mostly the same, adjusted padding) ... */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        h1 {
+            color: #0056b3;
+            text-align: center;
+            border-bottom: 3px solid #0056b3;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            font-size: 0.9em;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #e9e9ff;
+        }
+        .date-location {
+            font-weight: bold;
+            background-color: #e0f7fa;
+        }
+        .accommodation {
+            font-style: italic;
+        }
+        .dietary-col {
+            font-size: 0.85em;
+            color: #555;
+        }
+        .score-5 { color: #28a745; font-weight: bold; }
+        .score-3 { color: #ffc107; }
+        .score-2 { color: #dc3545; }
+    </style>
+</head>
+<body>
+
+    <h1>🇳🇿 New Zealand Travel Itinerary & Dining Options with Persistence 💾</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Accommodation / Activity</th>
+                <th>Restaurant Option</th>
+                <th>Cuisine</th>
+                <th title="Highly likely dish">Sample Vegetarian Dish</th>
+                <th title="Highly likely dish">Sample Pescatarian Dish</th>
+                <th title="Highly likely dish">Sample Meat Dish</th>
+                <th>Score (1-5)</th>
+                <th>Distance from Hotel</th>
+                <th>Selected ✅</th>
+            </tr>
+        </thead>
+        <tbody id="itineraryTableBody">
+            </tbody>
+    </table>
+
+    <script>
+        // Data Array - Easier to manage and iterate for persistence
+        const itineraryData = [
+            ["Dec 11 (Thu)", "Christchurch", "Sudima Hotel Christchurch City", "The Lane Bar & Restaurant", "Modern Bistro", "Mushroom Gnocchi or Halloumi Salad", "Catch of the Day (e.g., Pan-Seared Salmon)", "NZ Lamb Shoulder or Beef Fillet", 4, "On-site"],
+            ["Dec 11 (Thu)", "Christchurch", "Sudima Hotel Christchurch City", "The Monday Room", "Modern NZ/International", "Seasonal Vegetable Tart or Roasted Cauliflower", "South Island Scallops or Kingfish Ceviche", "Pork Belly or Venison Loin", 5, "~10-15 min walk"],
+            ["Dec 11 (Thu)", "Christchurch", "Sudima Hotel Christchurch City", "Ristorante Pizzeria Italia", "Italian/Pizza", "Margherita Pizza or Mushroom Risotto", "Frutti di Mare Pasta or Calamari Fritti", "Lasagna Bolognese or Osso Buco", 4, "~10-15 min walk"],
+            ["Dec 12 (Fri)", "Christchurch", "Sudima Hotel Christchurch City", "The Lotus-Heart", "Vegetarian/Vegan Indian", "**Any Dish (e.g., Aloo Gobi, Paneer Butter Masala)**", "**No Pescatarian (Vegan/Veg Only)**", "**No Meat (Vegan/Veg Only)**", 3, "~15-20 min walk"],
+            ["Dec 12 (Fri)", "Christchurch", "Sudima Hotel Christchurch City", "The Monday Room", "Modern NZ/International", "Seasonal Vegetable Tart or Roasted Cauliflower", "South Island Scallops or Kingfish Ceviche", "Pork Belly or Venison Loin", 5, "~10-15 min walk"],
+            ["Dec 12 (Fri)", "Christchurch", "Sudima Hotel Christchurch City", "Pomeroy's Old Irish Pub", "Pub Fare/Classic NZ", "Vegetarian Burger or Nachos", "Fish and Chips or Seafood Chowder", "Steak & Ale Pie or Scotch Fillet", 3, "~20-25 min walk"],
+            ["Dec 13 (Sat)", "Christchurch", "Sudima Hotel Christchurch City (Return from Kaikōura)", "Ristorante Pizzeria Italia", "Italian/Pizza", "Margherita Pizza or Mushroom Risotto", "Frutti di Mare Pasta or Calamari Fritti", "Lasagna Bolognese or Osso Buco", 4, "~10-15 min walk"],
+            ["Dec 13 (Sat)", "Christchurch", "Sudima Hotel Christchurch City (Return from Kaikōura)", "The Lotus-Heart", "Vegetarian/Vegan Indian", "**Any Dish (e.g., Daal Makhani, Vegetable Korma)**", "**No Pescatarian (Vegan/Veg Only)**", "**No Meat (Vegan/Veg Only)**", 3, "~15-20 min walk"],
+            ["Dec 13 (Sat)", "Christchurch", "Sudima Hotel Christchurch City (Return from Kaikōura)", "The Monday Room", "Modern NZ/International", "Seasonal Vegetable Tart or Roasted Cauliflower", "South Island Scallops or Kingfish Ceviche", "Pork Belly or Venison Loin", 5, "~10-15 min walk"],
+            ["Dec 14 (Sun)", "Lake Tekapo", "Grand Suites Lake Tekapo", "Blue Lake Eatery + Bar", "Contemporary NZ/Local", "Kumara & Herb Fritters or Vegetable Curry", "Salmon Fillet or Local Trout", "NZ Beef Burger or Lamb Rump", 4, "~8 min walk"],
+            ["Dec 14 (Sun)", "Lake Tekapo", "Grand Suites Lake Tekapo", "Dark Sky Diner", "South American/International", "Black Bean Burger or Vegetable Empanadas", "Grilled Prawn Skewers or Fish Tacos", "Lomo Saltado (Beef Stir Fry) or Asado (BBQ)", 4, "~10 min walk"],
+            ["Dec 14 (Sun)", "Lake Tekapo", "Grand Suites Lake Tekapo", "Ramen Tekapo", "Japanese/Asian", "Vegetable Ramen (Miso or Shoyu base)", "Seafood Ramen or Gyoza (Prawn)", "Pork Chashu Ramen or Beef Donburi", 3, "~9 min walk"],
+            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Alpine Restaurant (Buffet)", "International Buffet", "**Pasta station, Salad bar, Vegetable curries**", "**Fresh Fish station, Sushi (if offered)**", "**Roast Carvery (e.g., Beef, Lamb), Poultry dishes**", 5, "On-site"],
+            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Panorama Room", "Fine Dining/3-Course", "Vegetarian Course (Chef's Choice)", "Salmon or other delicate Fish dish", "High-end Venison or Beef dish", 3, "On-site"],
+            ["Dec 15 (Mon)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Sir Edmund Hillary Café & Bar", "Casual/Bar Snacks", "Pizza or Soup of the Day", "Smoked Salmon Bagel or Seafood Basket", "Gourmet Burger or Sausage Roll", 2, "On-site"],
+            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Alpine Restaurant (Buffet)", "International Buffet", "**Pasta station, Salad bar, Vegetable curries**", "**Fresh Fish station, Sushi (if offered)**", "**Roast Carvery (e.g., Beef, Lamb), Poultry dishes**", 5, "On-site"],
+            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Panorama Room", "Fine Dining/3-Course", "Vegetarian Course (Chef's Choice)", "Salmon or other delicate Fish dish", "High-end Venison or Beef dish", 3, "On-site"],
+            ["Dec 16 (Tue)", "Mount Cook", "The Hermitage Hotel Mount Cook", "Sir Edmund Hillary Café & Bar", "Casual/Bar Snacks", "Pizza or Soup of the Day", "Smoked Salmon Bagel or Seafood Basket", "Gourmet Burger or Sausage Roll", 2, "On-site"],
+            ["Dec 17 (Wed)", "Queenstown", "Walter Peak Gourmet Dinner", "Walter Peak Gourmet Dinner", "NZ BBQ Buffet", "**Roast Vegetables & Salads (Buffet selection)**", "**Salmon or other BBQ Fish (Buffet selection)**", "**BBQ Lamb, Beef, and Chicken Carvery**", 5, "Cruise Departs Steamer Wharf (~10 min walk)"],
+            ["Dec 18 (Thu)", "Queenstown", "The Central Private Hotel (Guide Rest Day)", "Yonder", "International/Cafe", "Stacked Tofu Burger or Pasta", "Fish Tacos or Grilled Fish (limited selection)", "Beef Burger or Chicken Schnitzel", 5, "~5-10 min walk"],
+            ["Dec 18 (Thu)", "Queenstown", "The Central Private Hotel (Guide Rest Day)", "Cassia", "Modern Indian", "Tandoori Paneer or Vegetable Kofta Curry", "Tandoori Prawns or Fish Curry", "Lamb Rogan Josh or Chicken Tikka Masala", 5, "~10-15 min walk"],
+            ["Dec 18 (Thu)", "Queenstown", "The Central Private Hotel (Guide Rest Day)", "Blue Kanu", "Polynesian/Asian Fusion", "Wok-tossed Vegetables & Rice or Tofu Dish", "Market Fish in Coconut Cream or Poke Bowl", "Pork Belly Bao Buns or Beef Rendang", 4, "~10-15 min walk"],
+            ["Dec 19 (Fri)", "Wanaka", "(Drive to Wanaka)", "Kika", "Modern NZ/Sharing Plates", "Chargrilled Eggplant or Seasonal Gnocchi", "Seared Scallops or Raw Fish/Crudo", "Highland Short Rib or Lamb Rump", 5, "Varies by accommodation (Centrally located)"],
+            ["Dec 19 (Fri)", "Wanaka", "(Drive to Wanaka)", "Francesca's Italian Kitchen", "Italian", "Vegetarian Pizza or Melanzane alla Parmigiana", "Zuppa di Pesce or Grilled Calamari", "Salsiccia Pizza or Pork Saltimbocca", 4, "Varies by accommodation (Centrally located)"],
+            ["Dec 20 (Sat)", "Te Anau", "Fiordland Lakeview Motel & Apartments", "Radhas Indian Restaurant", "Indian", "Paneer Tikka Masala or Palak Paneer", "Fish Curry or Prawn Vindaloo", "Lamb Curry or Butter Chicken", 5, "~5-10 min walk"],
+            ["Dec 20 (Sat)", "Te Anau", "Fiordland Lakeview Motel & Apartments", "The Fat Duck", "Gastropub/NZ", "Vegetable Wellington or Haloumi Salad", "Blue Cod Fish & Chips or Mussel Fritters", "Fiordland Venison Pie or Pork Ribs", 5, "~5-10 min walk"],
+            ["Dec 20 (Sat)", "Te Anau", "Fiordland Lakeview Motel & Apartments", "Redcliff Café", "Fiordland/NZ Fine Dining", "Seasonal Vegetable Main Course (Ask staff)", "Fiordland Lobster or Pan-Fried Fish", "Local Wild Venison or Lamb Shank", 3, "~10-15 min walk"],
+            ["Dec 21 (Sun)", "Te Anau", "Fiordland Lakeview Motel & Apartments (Return from Milford)", "Radhas Indian Restaurant", "Indian", "Paneer Tikka Masala or Palak Paneer", "Fish Curry or Prawn Vindaloo", "Lamb Curry or Butter Chicken", 5, "~5-10 min walk"],
+            ["Dec 21 (Sun)", "Te Anau", "Fiordland Lakeview Motel & Apartments (Return from Milford)", "The Fat Duck", "Gastropub/NZ", "Vegetable Wellington or Haloumi Salad", "Blue Cod Fish & Chips or Mussel Fritters", "Fiordland Venison Pie or Pork Ribs", 5, "~5-10 min walk"],
+            ["Dec 21 (Sun)", "Te Anau", "Fiordland Lakeview Motel & Apartments (Return from Milford)", "Redcliff Café", "Fiordland/NZ Fine Dining", "Seasonal Vegetable Main Course (Ask staff)", "Fiordland Lobster or Pan-Fried Fish", "Local Wild Venison or Lamb Shank", 3, "~10-15 min walk"],
+            ["Dec 22 (Mon)", "Rotorua", "Pullman Hotel Rotorua", "Atlas Restaurant", "International/Hotel", "Ricotta & Spinach Ravioli or Vegetable Stir-fry", "Market Fish or Prawn Linguine", "Wagyu Rump Steak or Chicken Supreme", 4, "On-site"],
+            ["Dec 22 (Mon)", "Rotorua", "Pullman Hotel Rotorua", "Atticus Finch", "Innovative/International", "Smoked Tofu Salad or Kumara Mash dish", "Seared Tuna or Mussels", "Lamb Rack or Beef Cheek", 4, "~5-10 min walk"],
+            ["Dec 22 (Mon)", "Rotorua", "Pullman Hotel Rotorua", "Sabroso Restaurant", "Latin American/Caribbean", "Vegetarian Burrito or Black Bean & Rice", "Ceviche or Grilled Fish with Salsa", "Cuban Pork or Chicken Mojo", 3, "~10-15 min walk"],
+            ["Dec 23 (Tue)", "Rotorua", "Te Pō Hāngī Dinner", "Te Pō Hāngī Dinner", "Māori Cultural Buffet", "**Roasted Kumara (Sweet Potato) & Vegetables**", "**Steamed Fish or Smoked Salmon (Buffet selection)**", "**Hāngī-cooked Lamb, Chicken & Pork**", 5, "Located at Te Puia (Requires transport)"],
+            ["Dec 23 (Tue)", "Rotorua", "Pullman Hotel Rotorua", "BailwalG Vegetarian Restaurant", "Dedicated Vegetarian/Vegan Indian", "**Any Dish (e.g., Baingan Bharta, Malai Kofta)**", "**No Pescatarian (Veg Only)**", "**No Meat (Veg Only)**", 3, "~10-15 min walk"],
+            ["Dec 23 (Tue)", "Rotorua", "Pullman Hotel Rotorua", "Atticus Finch", "Innovative/International", "Smoked Tofu Salad or Kumara Mash dish", "Seared Tuna or Mussels", "Lamb Rack or Beef Cheek", 4, "~5-10 min walk"],
+            ["Dec 24 (Wed)", "Auckland", "Horizon by SkyCity", "Orbit 360° Dining", "Fine Dining/Buffet", "**Vegetable Grill/Roast (Buffet)**", "**Oysters, Prawns, Salmon (Buffet)**", "**Roast Beef Carvery, Chicken dishes (Buffet)**", 5, "On-site (Sky Tower)"],
+            ["Dec 24 (Wed)", "Auckland", "Horizon by SkyCity", "Cassia", "Modern Indian", "Tandoori Paneer or Vegetable Kofta Curry", "Tandoori Prawns or Fish Curry", "Lamb Rogan Josh or Chicken Tikka Masala", 5, "On-site (SkyCity Complex)"],
+            ["Dec 24 (Wed)", "Auckland", "Horizon by SkyCity", "Dr Rudi's Rooftop Brewing Co.", "Casual Pub/Pizza", "Mushroom or Vegetarian Pizza", "Fish and Chips (limited menu)", "Meat Lover's Pizza or Burger", 3, "~15-20 min walk (Viaduct Harbour)"],
+            ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "Cassia", "Modern Indian", "Tandoori Paneer or Vegetable Kofta Curry", "Tandoori Prawns or Fish Curry", "Lamb Rogan Josh or Chicken Tikka Masala", 5, "On-site (SkyCity Complex)"],
+            ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "The Poni Room", "Asian Fusion/Seafood", "Tofu Steak or Vegetable Dumplings", "Oysters, Sashimi, or Fish Curry", "BBQ Pork Ribs or Beef Skewers", 4, "~15-20 min walk (Viaduct Harbour)"],
+            ["Dec 25 (Thu)", "Auckland", "Horizon by SkyCity", "The Grill", "Steak & Seafood", "Seasonal Vegetable Platter (Limited)", "Lobster, Crayfish, or Market Fish", "Eye Fillet, Rib Eye, or Lamb Cutlets", 2, "On-site (SkyCity Complex)"]
+        ];
+
+        // Utility function to create a clean, unique ID from the restaurant name
+        function createUniqueId(name) {
+            return name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+        }
+
+        // --- CORE FUNCTIONS FOR PERSISTENCE ---
+        
+        // 1. Load Data
+        function loadCheckboxes() {
+            const savedSelections = JSON.parse(localStorage.getItem('restaurantSelections')) || {};
+            const tableBody = document.getElementById('itineraryTableBody');
+            let html = '';
+
+            itineraryData.forEach((row, index) => {
+                const restaurantName = row[3];
+                const uniqueId = createUniqueId(row[0] + index); // Unique ID based on Date + Index
+                const isChecked = savedSelections[uniqueId] ? 'checked' : '';
+                const scoreClass = 'score-' + (row[8] >= 4 ? 5 : row[8]); // Simplified score class logic
+
+                html += '<tr>';
+                // Columns 1-10
+                html += '<td class="date-location">' + row[0] + '</td>';
+                html += '<td class="date-location">' + row[1] + '</td>';
+                html += '<td class="accommodation">' + row[2] + '</td>';
+                html += '<td>' + row[3] + '</td>';
+                html += '<td>' + row[4] + '</td>';
+                html += '<td class="dietary-col">' + row[5] + '</td>';
+                html += '<td class="dietary-col">' + row[6] + '</td>';
+                html += '<td class="dietary-col">' + row[7] + '</td>';
+                html += '<td class="' + scoreClass + '">' + row[8] + '</td>';
+                html += '<td>' + row[9] + '</td>';
+                
+                // NEW Checkbox Column (Column 11)
+                html += '<td><input type="checkbox" data-id="' + uniqueId + '" ' + isChecked + ' onchange="saveSelection(this)"></td>';
+                html += '</tr>';
+            });
+
+            tableBody.innerHTML = html;
+        }
+
+        // 2. Save Data
+        function saveSelection(checkbox) {
+            const uniqueId = checkbox.getAttribute('data-id');
+            const savedSelections = JSON.parse(localStorage.getItem('restaurantSelections')) || {};
+            
+            if (checkbox.checked) {
+                // If checked, save true
+                savedSelections[uniqueId] = true;
+            } else {
+                // If unchecked, remove or set to false
+                delete savedSelections[uniqueId]; 
+            }
+            
+            // Save the updated object back to LocalStorage
+            localStorage.setItem('restaurantSelections', JSON.stringify(savedSelections));
+        }
+
+        // Run on page load
+        window.onload = loadCheckboxes;
+        
+    </script>
+</body>
+</html>
