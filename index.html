@@ -18,6 +18,29 @@
             border-bottom: 3px solid #0056b3;
             padding-bottom: 10px;
         }
+        /* New styling for the intro section */
+        #intro-section {
+            background-color: #ffffff;
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        #intro-section h2 {
+            color: #0056b3;
+            margin-top: 0;
+            border-bottom: 1px dashed #ddd;
+            padding-bottom: 5px;
+        }
+        #intro-section ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        #intro-section ul li {
+            margin-bottom: 5px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -71,6 +94,30 @@
 <body>
 
     <h1>🇳🇿 New Zealand Travel Itinerary & Dining Options with Persistence 💾</h1>
+
+    <section id="intro-section">
+        <h2>Table Guide & Suitability Score Explanation</h2>
+        <p>This interactive table outlines the proposed dining options for each night of the New Zealand itinerary. It includes details essential for pre-trip planning and booking for a large group (14 people).</p>
+
+        <h3>Table Layout Explanation</h3>
+        <ul>
+            <li><strong>Accommodation / Activity:</strong> Notes the specific hotel or pre-booked dinner experience (e.g., Hāngī Dinner, Walter Peak).</li>
+            <li><strong>Restaurant Option / Cuisine:</strong> Details the specific restaurant and its culinary focus.</li>
+            <li><strong>Sample Dishes (Vegetarian, Pescatarian, Meat):</strong> Provides highly likely menu items to assess dietary suitability.</li>
+            <li><strong>Distance from Hotel:</strong> An estimate of travel time/distance, crucial for busy days.</li>
+            <li><strong>Contact Info:</strong> Includes the international phone number (+64) and email address for reservation contact.</li>
+            <li><strong>Selected ✅:</strong> An interactive column where selections can be marked off and saved using your browser's local storage.</li>
+        </ul>
+
+        <h3>Suitability Score (1-5) Methodology</h3>
+        <p>The Suitability Score is a pre-assessment, likely based on the planner's criteria for fitting the group's general needs. The scoring system is:</p>
+        <ul>
+            <li>**5 (Excellent):** On-site dining (e.g., hotel buffet), unique cultural experiences (e.g., Hāngī), or highly-rated, highly flexible restaurants known for handling large groups and diverse dietary needs.</li>
+            <li>**4 (Very Good):** Excellent cuisine, very good location, and strong reputation, but may require advance planning for large groups or complex dietary needs.</li>
+            <li>**3 (Good):** Suitable choice but may be a specialized cuisine (like purely vegetarian or fine dining) or a more casual pub setting, offering fewer high-end options for the group.</li>
+            <li>**2 (Fair):** Typically limited options, highly specialized, or a very casual setting (like a hotel café), suggesting it might be best as a backup or for light fare.</li>
+        </ul>
+    </section>
 
     <table>
         <thead>
