@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Zealand Travel Itinerary & Dining Options</title>
     <style>
-        /* ... (CSS remains the same) ... */
+        /* BASE STYLES */
         body {
             font-family: Arial, sans-serif;
             margin: 20px;
@@ -18,7 +18,7 @@
             border-bottom: 3px solid #0056b3;
             padding-bottom: 10px;
         }
-        /* New styling for the intro section */
+        /* Intro Section */
         #intro-section {
             background-color: #ffffff;
             border: 1px solid #ccc;
@@ -40,7 +40,7 @@
         #intro-section ul li {
             margin-bottom: 5px;
         }
-
+        /* Table Styles */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -63,18 +63,20 @@
             z-index: 10;
         }
         tr:nth-child(even) {
+            /* Alternating row color is handled within the location themes now */
+            /* Default fallback */
             background-color: #f9f9f9;
         }
         tr:hover {
-            background-color: #e9e9ff;
+            background-color: #e9e9ff !important; /* Override theme colors on hover */
         }
         .date-location {
             font-weight: bold;
-            background-color: #e0f7fa;
         }
         .accommodation {
             font-style: italic;
         }
+        /* Score & Dietary Colors */
         .dietary-col {
             font-size: 0.85em;
             color: #555;
@@ -85,13 +87,51 @@
         .contact-info a {
             color: #0056b3;
             text-decoration: none;
-            /* Make link text smaller for readability */
             font-size: 0.8em; 
-            display: block; /* Stack links vertically */
+            display: block;
         }
         .contact-info a:hover {
             text-decoration: underline;
         }
+        
+        /* LOCATION THEMES */
+        .location-theme-christchurch {
+            /* Garden City / Avon River Green */
+            background-color: #e0f8e0; 
+        }
+        .location-theme-tekapo {
+            /* Lake Blue / Dark Sky */
+            background-color: #e6f7ff; 
+        }
+        .location-theme-mountcook {
+            /* Alpine Peak White / Glacier Grey */
+            background-color: #f0f0f5; 
+        }
+        .location-theme-queenstown {
+            /* Adventure Gold / Lake Wakatipu Teal */
+            background-color: #fff9e6; 
+        }
+        .location-theme-wanaka {
+            /* Mountain Lake Calm Blue */
+            background-color: #e0f7fa; 
+        }
+        .location-theme-teanau {
+            /* Fiordland Deep Green */
+            background-color: #e8f5e9; 
+        }
+        .location-theme-rotorua {
+            /* Geothermal Steam White / Sulphur Yellow */
+            background-color: #fcf9e6; 
+        }
+        .location-theme-auckland {
+            /* Harbour Blue / City Grey */
+            background-color: #f3f7ff; 
+        }
+        /* Visual separator for location blocks */
+        .location-separator {
+            border-top: 3px solid #0056b3 !important;
+        }
+        
     </style>
 </head>
 <body>
@@ -204,6 +244,18 @@
             return name.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
         }
 
+        // Map location names to the new CSS theme classes
+        const locationThemes = {
+            'Christchurch': 'location-theme-christchurch',
+            'Lake Tekapo': 'location-theme-tekapo',
+            'Mount Cook': 'location-theme-mountcook',
+            'Queenstown': 'location-theme-queenstown',
+            'Wanaka': 'location-theme-wanaka',
+            'Te Anau': 'location-theme-teanau',
+            'Rotorua': 'location-theme-rotorua',
+            'Auckland': 'location-theme-auckland'
+        };
+
         // --- CORE FUNCTIONS FOR PERSISTENCE ---
         
         // 1. Load Data
@@ -211,29 +263,38 @@
             const savedSelections = JSON.parse(localStorage.getItem('restaurantSelections')) || {};
             const tableBody = document.getElementById('itineraryTableBody');
             let html = '';
+            let previousLocation = '';
 
             itineraryData.forEach((row, index) => {
-                // The contact info is at index 10
-                const contactInfo = row[10];
+                const locationName = row[1];
+                const locationClass = locationThemes[locationName] || '';
                 const uniqueId = createUniqueId(row[0] + index); 
                 const isChecked = savedSelections[uniqueId] ? 'checked' : '';
                 const scoreClass = 'score-' + (row[8] >= 4 ? 5 : row[8]);
 
-                // Split contact info (Phone / Email / Website)
+                const contactInfo = row[10];
                 const parts = contactInfo.split(' / ');
                 const phoneNumber = parts[0];
                 const emailAddress = parts[1];
                 const websiteURL = parts[2];
                 
-                // Create HTML links for phone, email, and website
+                // Add separator class if location changes from the previous row
+                let rowClasses = locationClass;
+                if (locationName !== previousLocation && previousLocation !== '') {
+                    rowClasses += ' location-separator';
+                }
+                previousLocation = locationName;
+
                 const contactHTML = `
                     <a href="tel:${phoneNumber.replace(/[^0-9+]/g, '')}">📞 ${phoneNumber}</a>
                     <a href="mailto:${emailAddress}">📧 ${emailAddress}</a>
                     <a href="${websiteURL}" target="_blank">🌐 Website</a>
                 `;
 
-                html += '<tr>';
-                // Columns 1-10 (Existing Data)
+                // Apply the theme class to the entire row
+                html += `<tr class="${rowClasses}">`; 
+                
+                // Columns 1-10 (Data)
                 html += '<td class="date-location">' + row[0] + '</td>';
                 html += '<td class="date-location">' + row[1] + '</td>';
                 html += '<td class="accommodation">' + row[2] + '</td>';
@@ -245,10 +306,10 @@
                 html += '<td class="' + scoreClass + '">' + row[8] + '</td>';
                 html += '<td>' + row[9] + '</td>';
                 
-                // NEW Contact Info Column (Column 11)
+                // Contact Info Column
                 html += '<td class="contact-info">' + contactHTML + '</td>';
                 
-                // Checkbox Column (Column 12)
+                // Checkbox Column
                 html += '<td><input type="checkbox" data-id="' + uniqueId + '" ' + isChecked + ' onchange="saveSelection(this)"></td>';
                 html += '</tr>';
             });
